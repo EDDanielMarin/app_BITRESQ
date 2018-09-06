@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BackgroundGeolocation, BackgroundGeolocationResponse, BackgroundGeolocationConfig } from '../../../node_modules/@ionic-native/background-geolocation';
+import { RestProvider } from '../../providers/rest/rest';
 
 @Component({
   selector: 'page-home',
@@ -8,29 +9,42 @@ import { BackgroundGeolocation, BackgroundGeolocationResponse, BackgroundGeoloca
 })
 export class HomePage {
   logs: string[] = [];
-
+  usuarios:any[]=[]
   constructor(public navCtrl: NavController,
-    private backgroundGeolocation: BackgroundGeolocation) {
+    private backgroundGeolocation: BackgroundGeolocation,
+    private rest: RestProvider) {
 
   }
-  ionViewDidLoad()
+  cargarUsuarios()
   {
-  }
-  startBackgroundGeolocation(){
-    this.backgroundGeolocation.isLocationEnabled()
-    .then((rta) =>{
-      if(rta){
-        this.start();
-      }else {
-        this.backgroundGeolocation.showLocationSettings();
+    this.rest.ejecutaGet('usuarios').subscribe(
+      (resp)=>{
+        this.usuarios=resp
       }
-    })
+    )
   }
-  
-  stopBackgroundGeolocation(){
+
+  ionViewDidLoad() {
+  }
+
+
+  //-------------------------------------------------------------
+
+  startBackgroundGeolocation() {
+    this.backgroundGeolocation.isLocationEnabled()
+      .then((rta) => {
+        if (rta) {
+          this.start();
+        } else {
+          this.backgroundGeolocation.showLocationSettings();
+        }
+      })
+  }
+
+  stopBackgroundGeolocation() {
     this.backgroundGeolocation.stop();
   }
-  start(){
+  start() {
 
     const config: BackgroundGeolocationConfig = {
       desiredAccuracy: 10,
@@ -45,19 +59,19 @@ export class HomePage {
       fastestInterval: 5000,
       activitiesInterval: 10000,
     };
-  
+
     console.log('start');
-  
+
     this.backgroundGeolocation
-    .configure(config)
-    .subscribe((location: BackgroundGeolocationResponse) => {
-      console.log(location);
-      this.logs.push(`${location.latitude},${location.longitude}`);
-    });
-  
+      .configure(config)
+      .subscribe((location: BackgroundGeolocationResponse) => {
+        console.log(location);
+        this.logs.push(`${location.latitude},${location.longitude}`);
+      });
+
     // start recording location
     this.backgroundGeolocation.start();
-  
+
   }
 
 }

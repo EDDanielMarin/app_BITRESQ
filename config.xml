@@ -93,4 +93,5 @@
         <variable name="CONTENT_AUTHORITY" value="$PACKAGE_NAME" />
     </plugin>
     <engine name="android" spec="6.4.0" />
+    <plugin name="cordova-sqlite-storage" spec="^2.4.0" />
 </widget>
