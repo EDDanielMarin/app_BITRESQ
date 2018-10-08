@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BackgroundGeolocation, BackgroundGeolocationResponse, BackgroundGeolocationConfig } from '../../../node_modules/@ionic-native/background-geolocation';
 import { RestProvider } from '../../providers/rest/rest';
+import { Storage } from "@ionic/storage";
+import { TabsControllerPage } from '../tabs-controller/tabs-controller';
+
+
 
 @Component({
   selector: 'page-home',
@@ -9,21 +13,45 @@ import { RestProvider } from '../../providers/rest/rest';
 })
 export class HomePage {
   logs: string[] = [];
-  usuarios:any[]=[]
+  misiones: any[] = []
+  usuario: any = {}
+  nickname = '';
+
+
+
+
   constructor(public navCtrl: NavController,
     private backgroundGeolocation: BackgroundGeolocation,
-    private rest: RestProvider) {
+    private rest: RestProvider,
+    private _storage: Storage) {
+    this._storage.get('user').then((resp) => {
+      this.usuario=resp
+      //optener mision
+      this.cargarMisiones()
+    })
+
+
+
 
   }
-  cargarUsuarios()
-  {
-    this.rest.ejecutaGet('usuarios').subscribe(
-      (resp)=>{
-        this.usuarios=resp
+
+
+  cargarMisiones() {
+   /* this.rest.ejecutaGet('operaciones/usuario/'.concat(this.usuario.codigo)).subscribe(*/
+    this.rest.ejecutaGet('misiones').subscribe(
+      (resp) => {
+        console.log(resp)
+        this.misiones = resp
       }
     )
   }
 
+  misionStart(e)
+  {
+    console.log(e)
+    this.navCtrl.setRoot(TabsControllerPage,{ mision: e })
+
+  }
   ionViewDidLoad() {
   }
 

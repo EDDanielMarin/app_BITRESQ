@@ -10,6 +10,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { Camera } from '@ionic-native/camera';
+
+
 import { RestProvider } from '../providers/rest/rest';
 import { DaoProvider } from '../providers/dao/dao';
 
@@ -20,6 +23,14 @@ import { ProfilePage } from '../pages/profile/profile';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { IonicStorageModule } from '../../node_modules/@ionic/storage';
 
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import { TabsControllerPage } from '../pages/tabs-controller/tabs-controller';
+import { ChatRoomPage } from '../pages/chat-room/chat-room';
+import { ChatRoomPageModule } from '../pages/chat-room/chat-room.module';
+import { DatosPage } from '../pages/datos/datos';
+const config: SocketIoConfig = { url: 'https://immense-fjord-51072.herokuapp.com', options: {} };
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -27,18 +38,27 @@ import { IonicStorageModule } from '../../node_modules/@ionic/storage';
     ListPage,
     LoginPage,
     ProfilePage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    TabsControllerPage,
+    ChatRoomPage,
+    DatosPage
   ],
   imports: [
     BrowserModule,
+    ChatRoomPageModule,
+
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    SocketIoModule.forRoot(config)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     LoginPage,
-    HomePage
+    HomePage,
+    TabsControllerPage,
+    ChatRoomPage,
+    DatosPage
   ],
   providers: [
     StatusBar,
@@ -54,7 +74,8 @@ import { IonicStorageModule } from '../../node_modules/@ionic/storage';
  
     RestProvider,
     DaoProvider,
-    TokenInterceptorProvider
+    TokenInterceptorProvider,
+    Camera
   ]
 })
 export class AppModule {}

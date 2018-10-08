@@ -8,10 +8,23 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button secondary  (click)='cargarUsuarios()'>Ver usuarios</button>
+
   <ion-list>
-    <ion-item *ngFor="let log of usuarios">
-      {{ log.correo }}
-    </ion-item>
+    <ion-list-header>
+      Misiones Asignadas
+    </ion-list-header>
+
+    <ion-item *ngFor="let mision of misiones" (click)="misionStart($event)">
+        <ion-avatar item-start>
+
+
+        </ion-avatar>
+        <h2>{{mision.descripcion}}</h2>
+        <h3>{{mision.fechaInicio | date : "dd-MM-y" }}</h3>
+        <p>{{mision.observacionInicial}}</p>
+      </ion-item>
   </ion-list>
+
+
+
 </ion-content>

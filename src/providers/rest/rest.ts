@@ -26,6 +26,8 @@ export class RestProvider {
   public setUrl(modulo)
   {
     var u= "https://immense-fjord-51072.herokuapp.com/"
+
+    //var u= "http://localhost:3000/"
     return u.concat(modulo);
   }
   
@@ -40,7 +42,6 @@ export class RestProvider {
   {
 
     this.url=this.setUrl(url)
-    console.error(this.url)
     return this._http.get<any>(this.url,this.httpOptions)
    
   }
@@ -51,8 +52,6 @@ export class RestProvider {
     return this._http.put(url,data,this.httpOptions)
     
   }
-
-  
   ejecutaDelete(url):Observable<any>
   {
        return this._http.delete(url,this.httpOptions);

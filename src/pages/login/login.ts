@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 
 import { RestProvider } from '../../providers/rest/rest';
 import { HomePage } from '../home/home';
+import { TabsControllerPage } from '../tabs-controller/tabs-controller';
 
 @IonicPage()
 @Component({
@@ -45,13 +46,13 @@ export class LoginPage {
       this.storage.set('user', resp.user);
       this.storage.set('jwt', resp.token);
       this.navCtrl.setRoot(HomePage)
-      console.log(resp)
+      ///console.log(resp)
       
     },
     (err)=>{
 
       this.loading.dismiss().then( () => {
-        console.log(err.message)
+       // console.log(err.message)
         let alert = this.alertCtrl.create({
           message: err.error.mesagge,
           buttons: [
