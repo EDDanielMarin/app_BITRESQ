@@ -1,0 +1,12 @@
+page-native-map {
+    ion-app .nav-decor{
+        background-color: transparent !important;
+      }
+
+      #map{
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    
+}

@@ -7,7 +7,6 @@ import { RestProvider } from '../../providers/rest/rest';
 import { HomePage } from '../home/home';
 import { TabsControllerPage } from '../tabs-controller/tabs-controller';
 
-@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',

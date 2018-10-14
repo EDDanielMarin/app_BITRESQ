@@ -25,7 +25,8 @@ export class RestProvider {
   }
   public setUrl(modulo)
   {
-    var u= "https://immense-fjord-51072.herokuapp.com/"
+    //var u= "https://immense-fjord-51072.herokuapp.com/"
+    var u="http://70.37.56.132:3000" 
 
     //var u= "http://localhost:3000/"
     return u.concat(modulo);

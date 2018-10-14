@@ -7,6 +7,8 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { Storage } from '@ionic/storage';
+import { MapaPage } from '../pages/mapa/mapa';
+import { NativeMapPage } from '../pages/native-map/native-map';
 
 @Component({
   templateUrl: 'app.html'
@@ -49,6 +51,17 @@ export class MyApp {
     });
   }
 
+
+  gotoMap()
+  {
+   // this.nav.setRoot(MapaPage);
+    this.nav.setRoot(NativeMapPage);
+
+  }
+  mapaNativo()
+  {
+    this.nav.setRoot(NativeMapPage);
+  }
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario

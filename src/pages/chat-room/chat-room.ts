@@ -4,7 +4,7 @@ import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
 import { Storage } from "@ionic/storage";
 
-@IonicPage()
+
 @Component({
   selector: 'page-chat-room',
   templateUrl: 'chat-room.html',

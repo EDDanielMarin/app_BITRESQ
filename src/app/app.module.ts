@@ -11,6 +11,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Camera } from '@ionic-native/camera';
+import { Geolocation } from '@ionic-native/geolocation';
+import { GoogleMaps, Geocoder } from '@ionic-native/google-maps';
+import { Toast } from '@ionic-native/toast';
 
 
 import { RestProvider } from '../providers/rest/rest';
@@ -26,9 +29,14 @@ import { IonicStorageModule } from '../../node_modules/@ionic/storage';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { TabsControllerPage } from '../pages/tabs-controller/tabs-controller';
 import { ChatRoomPage } from '../pages/chat-room/chat-room';
-import { ChatRoomPageModule } from '../pages/chat-room/chat-room.module';
+//import { ChatRoomPageModule } from '../pages/chat-room/chat-room.module';
 import { DatosPage } from '../pages/datos/datos';
-const config: SocketIoConfig = { url: 'https://immense-fjord-51072.herokuapp.com', options: {} };
+import { MapaPage } from '../pages/mapa/mapa';
+import { ReportePage } from '../pages/reporte/reporte';
+
+import { NativeMapPage } from '../pages/native-map/native-map';
+import { NativeMapPageModule } from '../pages/native-map/native-map.module';
+const config: SocketIoConfig = { url: 'http://70.37.56.132:3001', options: {} };
 
 
 @NgModule({
@@ -41,11 +49,14 @@ const config: SocketIoConfig = { url: 'https://immense-fjord-51072.herokuapp.com
     ResetPasswordPage,
     TabsControllerPage,
     ChatRoomPage,
-    DatosPage
+    DatosPage,
+    MapaPage,
+    ReportePage
   ],
   imports: [
     BrowserModule,
-    ChatRoomPageModule,
+    //ChatRoomPageModule,
+    NativeMapPageModule,
 
     HttpClientModule,
     IonicModule.forRoot(MyApp),
@@ -58,12 +69,16 @@ const config: SocketIoConfig = { url: 'https://immense-fjord-51072.herokuapp.com
     HomePage,
     TabsControllerPage,
     ChatRoomPage,
-    DatosPage
+    DatosPage,
+    MapaPage,
+    ReportePage,
+    NativeMapPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     BackgroundGeolocation,
+    Toast,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     
     {
@@ -75,7 +90,10 @@ const config: SocketIoConfig = { url: 'https://immense-fjord-51072.herokuapp.com
     RestProvider,
     DaoProvider,
     TokenInterceptorProvider,
-    Camera
+    Camera,
+    Geolocation,
+    GoogleMaps,
+    Geocoder,
   ]
 })
 export class AppModule {}
