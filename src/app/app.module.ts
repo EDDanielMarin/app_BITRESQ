@@ -36,7 +36,7 @@ import { ReportePage } from '../pages/reporte/reporte';
 
 import { NativeMapPage } from '../pages/native-map/native-map';
 import { NativeMapPageModule } from '../pages/native-map/native-map.module';
-const config: SocketIoConfig = { url: 'http://70.37.56.132:3001', options: {} };
+const config: SocketIoConfig = { url: "http://70.37.56.132:3001", options: {} };
 
 
 @NgModule({
