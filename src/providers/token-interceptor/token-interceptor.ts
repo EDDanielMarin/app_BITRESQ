@@ -12,6 +12,7 @@ export class TokenInterceptorProvider implements HttpInterceptor {
   constructor(public _storage: Storage) {
     _storage.get('jwt').then((resp) => {
       this.val = resp
+      console.log(resp)
     });
   }
 

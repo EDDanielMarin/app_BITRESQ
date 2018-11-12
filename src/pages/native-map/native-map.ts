@@ -1,5 +1,6 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
+import { Socket } from 'ng-socket-io';
 
 import { Geolocation } from '@ionic-native/geolocation';
 import {
@@ -9,11 +10,14 @@ import {
   LatLng,
   CameraPosition,
   MarkerOptions,
-  Geocoder, 
-  GeocoderRequest, 
+  Geocoder,
+  Marker,
+  GeocoderRequest,
   GeocoderResult,
+  GoogleMapOptions,
 } from '@ionic-native/google-maps';
 import { Toast } from '@ionic-native/toast';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Generated class for the NativeMapPage page.
@@ -28,90 +32,111 @@ import { Toast } from '@ionic-native/toast';
   templateUrl: 'native-map.html',
 })
 export class NativeMapPage {
-
   map: GoogleMap;
-  myPosition: any = {};
- 
+  posiciones: any = []
   constructor(
-    private geolocation: Geolocation,
+    private navCtrl: NavController,
     private googleMaps: GoogleMaps,
-    private geocoder: Geocoder,
-    private toast: Toast
-  ) {}
+    private socket: Socket,
 
-  ionViewDidLoad(){
-    this.getCurrentPosition();
-  }
+  ) {
 
-  getCurrentPosition(){
-    this.geolocation.getCurrentPosition()
-    .then(position => {
-      this.myPosition = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+    this.getPosicionRescatista().subscribe((pos: any) => {
+      var tempPos = this.posiciones.find(x => x.rescatista == pos.rescatista && x.mision==pos.mision)
+      var index = this.posiciones.indexOf(tempPos)
+      if (index > -1) {
+        this.posiciones.splice(index, 1);
       }
-      this.loadMap();
-    })
-    .catch(error=>{
-      console.log(error);
-      // this.toast.show("No se ha podido obtener su ubicación", '5000', 'center')
-      // .subscribe(toast => console.log(toast) );
-    })
+
+      this.posiciones.push(pos)
+      console.log(this.posiciones)
+      this.dibujarMarcadores()
+
+    });
+
+
+
   }
-
-  loadMap(){
-    // create a new map by passing HTMLElement
-    let element: HTMLElement = document.getElementById('map');
-
-    this.map = this.googleMaps.create(element);
-
-    // create CameraPosition
-    let position: CameraPosition<LatLng> = {
-      target: new LatLng(this.myPosition.latitude, this.myPosition.longitude),
-      zoom: 12,
-      tilt: 30
-    };
-
-    this.map.one(GoogleMapsEvent.MAP_READY).then(()=>{
-      console.log('Map is ready!');
-
-      // move the map's camera to position
-      this.map.moveCamera(position);
-
-      let markerOptions: MarkerOptions = {
-        position: this.myPosition,
-        title: "Hello"
-      };
-
-      this.addMarker(markerOptions);
+  dibujarMarcadores()
+  {
+    
+    this.map.clear()
+    this.getPosition()
+    this.posiciones.forEach(x => {
+      this.addMarker(x)
+      
     });
   }
+
+  ionViewDidLoad() {
+    this.loadMap();
+  }
+
+  loadMap() {
+
+    let mapOptions: GoogleMapOptions = {
+      camera: {
+        target: {
+          lat: 43.0741904, // default location
+          lng: -89.3809802 // default location
+        },
+        zoom: 18,
+        tilt: 30
+      }
+    };
+
+    this.map = GoogleMaps.create('map', mapOptions);
+
+    // Wait the MAP_READY before using any methods.
+    this.map.one(GoogleMapsEvent.MAP_READY)
+      .then(() => {
+        // Now you can use all methods safely.
+        this.getPosition();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+  }
+
+  getPosition(): void {
+    this.map.getMyLocation()
+      .then(response => {
+        this.map.moveCamera({
+          target: response.latLng
+        });
+        this.map.addMarker({
+          title: 'Mi Posición',
+          icon: 'blue',
+          position: response.latLng
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+
 
   addMarker(options){
     let markerOptions: MarkerOptions = {
-      position: new LatLng(options.position.latitude, options.position.longitude),
-      title: options.title,
+      position: new LatLng(options.contenido.latitud, options.contenido.longitud),
+      title: options.remisor,
       icon: options.icon
     };
-    this.map.addMarker(markerOptions)
-    .then(marker =>{
-      this.doGeocode(marker);
-    })
+    this.map.addMarker(markerOptions);
   }
 
-  doGeocode(marker){
-    let request: GeocoderRequest = {
-      position: new LatLng(this.myPosition.latitude, this.myPosition.longitude),
-    };
-    this.geocoder.geocode(request)
-    .then((results: any) => {
-      let address = [
-        (results[0].thoroughfare || "") + " " + (results[0].subThoroughfare || ""),
-        results[0].locality
-      ].join(", ");
-      console.log("data_: ", address);
-      marker.setTitle(address);
-      marker.showInfoWindow();
-    });
+  //-------
+
+
+  getPosicionRescatista() {
+    let observable = new Observable(observer => {
+      this.socket.on('registro_2', (data) => {
+        observer.next(data);
+      });
+    })
+    return observable;
   }
+
 }

@@ -1,12 +1,15 @@
-page-native-map {
-    ion-app .nav-decor{
-        background-color: transparent !important;
+page-native-map{
+  ion-content{
+    background: rgb(229, 227, 223);
+    #map {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 150ms ease-in;
+      display: block;
+      &.show-map{
+        opacity: 1;
       }
-
-      #map{
-        display: block;
-        height: 100%;
-        width: 100%;
-      }
-    
+    }
+  }
 }

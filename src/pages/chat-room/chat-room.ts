@@ -13,7 +13,7 @@ export class ChatRoomPage {
   messages = [];
   nickname = 'test';
   message = '';
-  usuario:any;
+  usuario: any;
 
   constructor(private navCtrl: NavController,
     private navParams: NavParams,
@@ -22,47 +22,43 @@ export class ChatRoomPage {
     public _storage: Storage) {
     //this.nickname = this.navParams.get('nickname');
 
-   
-    this.joinChat()
-   
-    this.getMessages().subscribe(message => {
-      this.messages.push(message);
-    });
-
-
-    this.getUsers().subscribe(data => {
-      let user = data['user'];
-      if (data['event'] === 'left') {
-        this.showToast('User left: ' + user);
-      } else {
-        this.showToast('User joined: ' + user);
-      }
-    });
-  }
-  joinChat()  {
-   
     this._storage.get('user').then((resp) => {
       this.nickname = resp.nombreUsuario
-      this._storage.get("statusChat").then((resp1)=>{
-        if(!resp1)
-        {
-          console.log(resp)
-          this.socket.connect();
-          this._storage.set("statusChat",1)
-          this.socket.emit('set-nickname', this.nickname)
-          this.usuario=resp
-        }
+      this.joinChat()
 
-      })
-     
-     
-    });
-   
+      this.usuario = resp
+
+      this.getMessages().subscribe(message => {
+        this.messages.push(message);
+      });
+
+
+      this.getUsers().subscribe(data => {
+        let user = data['user'];
+        if (data['event'] === 'left') {
+          this.showToast('User left: ' + user);
+        } else {
+          this.showToast('User joined: ' + user);
+        }
+      });
+
+
+    })
+
+
+
+
+  }
+  joinChat() {
+    this.socket.connect();
+    this._storage.set("statusChat", 1)
+    this.socket.emit('set-nickname', this.nickname)
+
     // this.navCtrl.push('ChatRoomPage', { nickname: this.nickname });
   }
 
   sendMessage() {
-    this.socket.emit('add-message', {usuario:this.usuario, text: this.message });
+    this.socket.emit('add-message', { usuario: this.usuario, text: this.message });
     this.message = '';
   }
 
@@ -85,7 +81,7 @@ export class ChatRoomPage {
   }
 
   ionViewWillLeave() {
-   // this.socket.disconnect();
+    // this.socket.disconnect();
   }
 
   showToast(msg) {

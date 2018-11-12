@@ -6,22 +6,22 @@
         <ion-title>
           Datos Generales
         </ion-title>
-      </ion-navbar>.
+      </ion-navbar>
     </ion-header>
     <ion-content padding id="page4">
       <ion-card id="inicio-card21">
         <ion-list>
           <ion-item color="calm" id="inicio-list-item13">
             <ion-icon name="navigate" item-left></ion-icon>
-            Ubicación: (-1.444,0.255)
+            Ubicación:({{lat}},{{long}})
           </ion-item>
           <ion-item color="calm" id="inicio-list-item15">
             <ion-icon name="home" item-left></ion-icon>
-            Distancia: 120 KM
+            Distancia: {{distancia}} Km
           </ion-item>
           <ion-item color="calm" id="inicio-list-item14">
             <ion-icon name="arrow-round-up" item-left></ion-icon>
-            Altura: 5299m
+            Altura: {{altura}} m
           </ion-item>
         </ion-list>
       </ion-card>
@@ -52,7 +52,14 @@
           </ion-item>
         </ion-list>
       </ion-card>
-      <button id="inicio-button4" ion-button color="assertive" block large>
+      <button id="inicio-button4" ion-button color="assertive" block large (click)='cargaTest()'>
         Botón de pánico
       </button>
+
+      <ion-list>
+        <ion-item *ngFor="let log of logs">
+          {{ log }}
+        </ion-item>
+      </ion-list>
+
     </ion-content>

@@ -14,6 +14,7 @@ import { Camera } from '@ionic-native/camera';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps, Geocoder } from '@ionic-native/google-maps';
 import { Toast } from '@ionic-native/toast';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 
 import { RestProvider } from '../providers/rest/rest';
@@ -94,6 +95,7 @@ const config: SocketIoConfig = { url: "http://70.37.56.132:3001", options: {} };
     Geolocation,
     GoogleMaps,
     Geocoder,
+    LocationAccuracy
   ]
 })
 export class AppModule {}
