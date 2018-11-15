@@ -38,7 +38,8 @@ import { ReportePage } from '../pages/reporte/reporte';
 import { NativeMapPage } from '../pages/native-map/native-map';
 import { NativeMapPageModule } from '../pages/native-map/native-map.module';
 const config: SocketIoConfig = { url: "http://70.37.56.132:3001", options: {} };
-
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,11 @@ const config: SocketIoConfig = { url: "http://70.37.56.132:3001", options: {} };
     Geolocation,
     GoogleMaps,
     Geocoder,
-    LocationAccuracy
+    LocationAccuracy,
+    FileTransfer,
+    //FileUploadOptions,
+    FileTransferObject,
+    File,
   ]
 })
 export class AppModule {}

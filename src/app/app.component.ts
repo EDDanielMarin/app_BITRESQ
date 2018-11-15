@@ -36,6 +36,7 @@ export class MyApp {
   cerrarSesion()
   {
     this.storage.clear()
+    localStorage.clear()
     this.nav.setRoot(LoginPage)
     
   }

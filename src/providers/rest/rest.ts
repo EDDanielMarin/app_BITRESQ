@@ -19,6 +19,7 @@ export class RestProvider {
     }
   )
   };
+ 
   private url:string=""
   constructor(private _http: HttpClient) {
     console.log('Hello RestProvider Provider');
@@ -60,6 +61,14 @@ export class RestProvider {
   ejecutaDeleteId(url):Observable<any>
   {
      return this._http.delete(url,this.httpOptions);
+  }
+  uploadFile(url,data:FormData):Observable<any>
+  {
+    this.url=this.setUrl(url)
+    const HttpUploadOptions = {
+      headers: new HttpHeaders({ "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW" })
+    }
+    return this._http.post(this.url,data,HttpUploadOptions)
   }
 /*
   private handleError(error: HttpErrorResponse) {
