@@ -22,8 +22,10 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,  
     private storage: Storage) {
+    let tk=localStorage.getItem('jwt')
     this.initializeApp();
-
+    if(tk)
+        this.rootPage=HomePage
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'HomePage', component: HomePage },

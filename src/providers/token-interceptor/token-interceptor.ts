@@ -10,16 +10,17 @@ export class TokenInterceptorProvider implements HttpInterceptor {
 
   private val: String = ''
   constructor(public _storage: Storage) {
-    _storage.get('jwt').then((resp) => {
+    /*_storage.get('jwt').then((resp) => {
       this.val = resp
       console.log(resp)
-    });
+    });*/
+    this.val=localStorage.getItem('jwt')
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${this.val}`
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
       }
       
     });

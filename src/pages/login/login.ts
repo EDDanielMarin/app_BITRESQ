@@ -44,6 +44,7 @@ export class LoginPage {
     {
       this.storage.set('user', resp.user);
       this.storage.set('jwt', resp.token);
+      localStorage.setItem('jwt',resp.token)
       this.navCtrl.setRoot(HomePage)
       ///console.log(resp)
       
