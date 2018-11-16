@@ -24,6 +24,7 @@
     "@ionic-native/camera": "^4.15.0",
     "@ionic-native/core": "~4.12.0",
     "@ionic-native/file": "^4.17.0",
+    "@ionic-native/file-path": "^4.17.0",
     "@ionic-native/file-transfer": "^4.17.0",
     "@ionic-native/geolocation": "^4.15.0",
     "@ionic-native/google-maps": "^4.15.1",

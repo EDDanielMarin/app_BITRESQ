@@ -63,7 +63,7 @@ export class MyApp {
   }
   mapaNativo()
   {
-    this.nav.setRoot(NativeMapPage);
+    this.nav.setRoot(MapaPage);
   }
   openPage(page) {
     // Reset the content nav to have just this page
