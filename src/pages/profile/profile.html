@@ -1,18 +1,54 @@
-<!--
-  Generated template for the ProfilePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>profile</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+<div padding>
+    <ion-segment [(ngModel)]="cat">
+      <ion-segment-button value="men">
+        Men
+      </ion-segment-button>
+      <ion-segment-button value="women">
+        Women
+      </ion-segment-button>
+      </ion-segment>
+  </div>
+  
+  <div [ngSwitch]="cat">
+    <ion-list *ngSwitchCase="'men'">
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img src="img/men-image1.png">
+        </ion-thumbnail>
+        <h2>Cothing</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img src="img/men-image2.png">
+        </ion-thumbnail>
+        <h2>Watches</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img src="img/men-image3.png">
+        </ion-thumbnail>
+        <h2>Footwear</h2>
+      </ion-item>
+    </ion-list>
+  
+    <ion-list *ngSwitchCase="'women'">
+     <ion-item>
+        <ion-thumbnail item-left>
+          <img src="img/women-image1.png">
+        </ion-thumbnail>
+        <h2>Cothing1</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img src="img/women-image1.png">
+        </ion-thumbnail>
+        <h2>Watches2</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img src="/img/women-image1.png">
+        </ion-thumbnail>
+        <h2>Footwear3</h2>
+      </ion-item>
+   </ion-list>
+  </div>

@@ -107,6 +107,8 @@ export class DatosPage {
               console.log('No results found');
             }
           } else {
+            this.presentToast("Triaje enviado correctamente")
+
             console.log('Elevation service failed due to: ' + status);
           }
         }
@@ -206,11 +208,27 @@ export class DatosPage {
 
     this.rest.ejecutaPut('registros/', this.data).subscribe(
       (resp) => {
-        alert(JSON.stringify(resp))
+        this.presentToast("Enviado correctamente")
       }
     )
 
   }
+
+  
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
+  }
+
   enviarPosicion(location) {
     this.getPosition()
     this.data.contenido = {}

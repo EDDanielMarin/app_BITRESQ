@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { IonicPage, NavController, NavParams, ActionSheetController, FabContainer } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { LoadingController, ToastController } from 'ionic-angular';
@@ -12,6 +12,8 @@ import { Storage } from "@ionic/storage";
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture';
 import { Media, MediaObject } from '@ionic-native/media';
 import { DatosPage } from '../datos/datos';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { RestProvider } from '../../providers/rest/rest';
 
 
 declare var cordova: any;
@@ -21,17 +23,23 @@ declare var cordova: any;
   selector: 'page-reporte',
   templateUrl: 'reporte.html',
 })
-export class ReportePage {
+export class ReportePage implements OnInit {
+
+  myForm: FormGroup;
 
   image: string = null;
   imageURI: any;
   imageFileName: any;
   usuario: any = {}
   mision: any = {}
-  data: any=null;
+  data: any = null;
   msg: String = ''
   mediaFiles = [];
-  video:any=null
+  video: any = null
+  triaje: any = {}
+  rescatista: any = {}
+  cat: string = "men"; // default button
+
   @ViewChild('myvideo') myVideo: any;
 
   constructor(public navCtrl: NavController,
@@ -44,22 +52,41 @@ export class ReportePage {
     private transfer: FileTransfer,
     public actionSheetCtrl: ActionSheetController,
     private mediaCapture: MediaCapture,
-    private media: Media
+    public formBuilder: FormBuilder,
+    private rest: RestProvider,
 
   ) {
   }
 
-
+  ngOnInit(): void {
+    this.inicializaForm()
+  }
   ionViewDidLoad() {
     this._storage.get('user').then((resp) => {
       this.usuario = resp
       this._storage.get('mision').then((respm) => {
         this.mision = respm
+        this.rest.ejecutaGet('rescatistas/cedula/' + resp.rescatista).subscribe((resc: any) => {
+          this.rescatista = resc
+          this.cargarTriaje()
+
+        })
+
+
       })
     })
   }
 
+  inicializaForm() {
+    this.myForm = this.formBuilder.group({
+      reanimacion: ['', Validators.required],
+      emergencia: ['', Validators.required],
+      urg: ['', Validators.required],
+      menosurg: ['', Validators.required],
+      nourg: ['', Validators.required],
 
+    });
+  }
   public presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Seleccionar imagen',
@@ -86,6 +113,9 @@ export class ReportePage {
   }
 
 
+  atras(fab: FabContainer) {
+    fab.close();
+  }
 
   getImage(sourceType) {
     const options: CameraOptions = {
@@ -123,7 +153,7 @@ export class ReportePage {
     }
     this.mediaCapture.captureVideo(options).then((res: MediaFile[]) => {
       let capturedFile = res[0];
-      this.data=capturedFile.fullPath;
+      this.data = capturedFile.fullPath;
       //this.uploadImage()
       /*
       let fileName = capturedFile.name;
@@ -159,7 +189,7 @@ export class ReportePage {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let d = new Date()
     let s = JSON.stringify(this.data).split('.')
-    let pos=s[s.length-1].split('?')[0]
+    let pos = s[s.length - 1].split('?')[0]
 
     let url = 'http://70.37.56.132:3000/archivos/upload/' + this.mision.codigo + '/' + this.usuario.rescatista + '/' + this.msg
     url = url.replace(/ /g, '%20')
@@ -173,10 +203,10 @@ export class ReportePage {
         // success
         loader.dismiss();
         this.presentToast("Reporte enviado correctamente");
-        this.video=null
-        this.image=null
-        this.msg=''
-        this.data=null
+        this.video = null
+        this.image = null
+        this.msg = ''
+        this.data = null
 
 
       }, (err) => {
@@ -201,9 +231,52 @@ export class ReportePage {
 
     toast.present();
   }
-  inicio()
-  {
+  inicio() {
     this.navCtrl.setRoot(DatosPage)
   }
-  
+
+  cargarTriaje() {
+    this.rest.ejecutaGet('registros/registrotipo/' + this.mision.codigo + '/' + this.rescatista.codigo + '/5').subscribe((resp: any) => {
+      this.triaje = resp
+      this.myForm.setValue(resp[0].contenido)
+    })
+  }
+
+  enviarDatosTriaje() {
+
+    if (!this.triaje[0]._id) {
+      let data: any = {}
+      data.contenido = this.myForm.value
+      data.rescatista = this.usuario.rescatista
+      data.mision = this.mision.codigo
+      data.tipo = 5
+      data.fecha = new Date()
+
+      this.rest.ejecutaPut('registros/', data).subscribe(
+        (resp) => {
+          this.presentToast("Reporte enviado correctamente");
+        //  this.inicializaForm()
+
+        },
+        err => {
+          this.presentToast("Error al enviar reporte");
+
+        }
+      )
+    }
+    else{
+      let data: any = {}
+      data=this.triaje[0]
+      delete data['contenido']
+      data.contenido=this.myForm.value.value
+
+      this.rest.ejecutaPost('registros/',data).subscribe((resp)=>{
+        this.presentToast("Reporte enviado correctamente");
+
+        console.log(resp)
+      })
+    }
+
+  }
+
 }

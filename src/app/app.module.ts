@@ -77,7 +77,8 @@ import { Media } from '@ionic-native/media';
     DatosPage,
     MapaPage,
     ReportePage,
-    NativeMapPage
+    NativeMapPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

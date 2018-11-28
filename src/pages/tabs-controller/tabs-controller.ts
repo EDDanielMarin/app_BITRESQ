@@ -6,6 +6,7 @@ import { ChatRoomPage } from '../chat-room/chat-room';
 import { DatosPage } from '../datos/datos';
 import { MapaPage } from '../mapa/mapa';
 import { NativeMapPage } from '../native-map/native-map';
+import { ProfilePage } from '../profile/profile';
 
 /**
  * Generated class for the TabsControllerPage page.

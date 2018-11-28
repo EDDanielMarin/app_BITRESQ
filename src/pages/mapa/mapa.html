@@ -12,31 +12,31 @@
     <form [formGroup]="myForm" (ngSubmit)="loginUser()">
       <ion-list>
         <ion-item>
-          <ion-icon name="person" item-left></ion-icon>
+          <ion-icon name="reanimacion" item-left></ion-icon>
           <ion-label stacked>Reanimación</ion-label>
-          <ion-input formControlName="usuario" type="text" placeholder="Nivel I"></ion-input>
+          <ion-input formControlName="reanimacion" type="number" placeholder="Nivel I"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-icon name="person" item-left></ion-icon>
+          <ion-icon name="emergencia" item-left></ion-icon>
           <ion-label stacked>Emergencia:</ion-label>
-          <ion-input formControlName="usuario" type="text" placeholder="Nivel II"></ion-input>
+          <ion-input formControlName="emergencia" type="number" placeholder="Nivel II"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-icon name="person" item-left></ion-icon>
+          <ion-icon name="urg" item-left></ion-icon>
           <ion-label stacked>Urgente</ion-label>
-          <ion-input formControlName="usuario" type="text" placeholder="Nivel III"></ion-input>
+          <ion-input formControlName="urg" type="number" placeholder="Nivel III"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-icon name="person" item-left></ion-icon>
-          <ion-label stacked>No Urgente</ion-label>
-          <ion-input formControlName="usuario" type="text" placeholder="Nivel IV"></ion-input>
+          <ion-icon name="menosurg" item-left></ion-icon>
+          <ion-label stacked>Menos Urgente</ion-label>
+          <ion-input formControlName="usuario" type="number" placeholder="Nivel IV"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-icon name="person" item-left></ion-icon>
+          <ion-icon name="nourg" item-left></ion-icon>
           <ion-label stacked>No Urgente</ion-label>
-          <ion-input formControlName="usuario" type="text" placeholder="Nivel V"></ion-input>
+          <ion-input formControlName="nourg" type="number" placeholder="Nivel V"></ion-input>
         </ion-item>
-        
+
       </ion-list>
       <div padding>
         <button ion-button block type="submit" [disabled]="!myForm.valid">
@@ -49,11 +49,11 @@
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar color="primary">
-      <ion-buttons>
-        <button ion-button icon-left (click)="atras()">
-          <ion-icon name="reorder"></ion-icon>Atras
-        </button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-footer>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <button ion-button icon-left (click)="atras()">
+        <ion-icon name="reorder"></ion-icon>Atras
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
