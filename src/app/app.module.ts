@@ -41,8 +41,8 @@ const config: SocketIoConfig = { url: "http://70.37.56.132:3001", options: {} };
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 
-import { FilePath } from '@ionic-native/file-path';
-
+import { MediaCapture } from '@ionic-native/media-capture';
+import { Media } from '@ionic-native/media';
 
 @NgModule({
   declarations: [
@@ -101,10 +101,10 @@ import { FilePath } from '@ionic-native/file-path';
     Geocoder,
     LocationAccuracy,
     FileTransfer,
-    //FileUploadOptions,
     FileTransferObject,
     File,
-    FilePath,
+    MediaCapture,
+    Media
   ]
 })
 export class AppModule {}

@@ -58,7 +58,7 @@ export class MyApp {
   gotoMap()
   {
    // this.nav.setRoot(MapaPage);
-    this.nav.setRoot(NativeMapPage);
+    this.nav.setRoot(MapaPage);
 
   }
   mapaNativo()

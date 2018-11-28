@@ -36,8 +36,8 @@ export class HomePage {
 
 
   cargarMisiones() {
-   /* this.rest.ejecutaGet('operaciones/usuario/'.concat(this.usuario.codigo)).subscribe(*/
-    this.rest.ejecutaGet('misiones').subscribe(
+   this.rest.ejecutaGet('operaciones/rescatista/'.concat(this.usuario.rescatista)).subscribe(
+   // this.rest.ejecutaGet('misiones').subscribe(
       (resp) => {
         console.log(resp)
         this.misiones = resp

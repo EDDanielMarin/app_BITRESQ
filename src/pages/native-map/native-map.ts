@@ -18,6 +18,7 @@ import {
 } from '@ionic-native/google-maps';
 import { Toast } from '@ionic-native/toast';
 import { Observable } from 'rxjs/Observable';
+import { DatosPage } from '../datos/datos';
 
 /**
  * Generated class for the NativeMapPage page.
@@ -138,5 +139,9 @@ export class NativeMapPage {
     })
     return observable;
   }
-
+  inicio()
+  {
+    this.navCtrl.setRoot(DatosPage)
+    
+  }
 }

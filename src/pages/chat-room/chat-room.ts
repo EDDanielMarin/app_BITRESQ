@@ -3,6 +3,7 @@ import { NavController, IonicPage, NavParams, ToastController } from 'ionic-angu
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
 import { Storage } from "@ionic/storage";
+import { DatosPage } from '../datos/datos';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class ChatRoomPage {
         if (data['event'] === 'left') {
           this.showToast('User left: ' + user);
         } else {
-          this.showToast('User joined: ' + user);
+          this.showToast('Usuario unido: ' + user);
         }
       });
 
@@ -83,7 +84,10 @@ export class ChatRoomPage {
   ionViewWillLeave() {
     // this.socket.disconnect();
   }
-
+  inicio()
+  {
+    this.navCtrl.setRoot(DatosPage)
+  }
   showToast(msg) {
     let toast = this.toastCtrl.create({
       message: msg,

@@ -7,6 +7,12 @@
 <ion-header>
 
   <ion-navbar>
+
+
+    <button ion-button icon-only (click)="openModal()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
+
     <ion-title>Reporte</ion-title>
   </ion-navbar>
 
@@ -14,6 +20,44 @@
 
 
 <ion-content padding>
-  <button ion-button block (click)="getPicture()">Toma una foto</button>
-  <img [src]="image" *ngIf="image" />
+
+  <video *ngIf="false" controls autoplay #myvideo>
+  </video>
+
+
+  <ion-item *ngIf="image">
+    <img [src]="image" />
+
+  </ion-item>
+  <ion-item *ngIf="data">
+    <p>{{data}}</p>
+
+  </ion-item>
+
+
+  <ion-item>
+    <ion-label color="primary" floating>Breve Descripción: </ion-label>
+    <ion-input [(ngModel)]='msg' maxlength="20"></ion-input>
+  </ion-item>
+
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <button ion-button icon-left (click)="atras()">
+        <ion-icon name="reorder"></ion-icon>Atras
+      </button>
+      <button ion-button icon-left (click)="presentActionSheet()">
+        <ion-icon name="camera"></ion-icon>Imagen
+      </button>
+      <button ion-button icon-left (click)="captureVideo()">
+        <ion-icon name="play"></ion-icon>Video
+      </button>
+      <button ion-button icon-left (click)="uploadImage()" [disabled]="data === null">
+        <ion-icon name="cloud-upload"></ion-icon>Enviar
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+    <button ion-button (ngClick)='inicio()'>
+      <ion-icon name="arrow-back"></ion-icon>
     </button>
     <ion-title>
       Ubicación
@@ -10,5 +10,5 @@
 </ion-header>
 
 <ion-content>
-  <div id="map"></div>  
+  <div id="map"></div>
 </ion-content>
