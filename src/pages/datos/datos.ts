@@ -5,6 +5,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { BackgroundGeolocation, BackgroundGeolocationResponse, BackgroundGeolocationConfig } from '../../../node_modules/@ionic-native/background-geolocation';
 import { Storage } from "@ionic/storage";
 import { RestProvider } from '../../providers/rest/rest';
+import { FormGroup } from '@angular/forms';
 
 declare var google;
 
@@ -14,10 +15,12 @@ declare var google;
   templateUrl: 'datos.html',
 })
 export class DatosPage {
+  myForm: FormGroup;
 
   mision: any = {}
   lat;
   long;
+  ubicacion
   distancia: any
   altura: any = "Calculando..."
   elevator: any
@@ -85,7 +88,7 @@ export class DatosPage {
         this.lat = response.coords.latitude
         this.long = response.coords.longitude
         this.altura = response.coords.altitude
-
+        this.ubicacion=this.rest.ddToDms(this.lat, this.long)
         var la1 = -0.315885
         var lo1 = -78.4427159
         this.distancia = this.getKilometros(la1, lo1, this.lat, this.long)
@@ -104,6 +107,8 @@ export class DatosPage {
               console.log('No results found');
             }
           } else {
+            this.presentToast("Triaje enviado correctamente")
+
             console.log('Elevation service failed due to: ' + status);
           }
         }
@@ -170,7 +175,7 @@ export class DatosPage {
       // Android only section
       locationProvider: 1,
       startForeground: true,
-      interval: 600,
+      interval: 1000,
       fastestInterval: 500,
       activitiesInterval: 1000,
     };
@@ -193,13 +198,39 @@ export class DatosPage {
 
   }
   cargaTest() {
-    alert('Hola mundo')
-    var asd: any = {}
-    asd.latitude = -0.2722267
-    asd.longitude = -78.3480857
-    this.enviarPosicion(asd)
+  
+    this.data.contenido.latitud = this.lat
+    this.data.contenido.longitud = this.long
+    this.data.rescatista = this.usuario.rescatista
+    this.data.mision = this.mision.codigo
+    this.data.tipo = 4
+    this.data.fecha = new Date()
+
+    this.rest.ejecutaPut('registros/', this.data).subscribe(
+      (resp) => {
+        this.presentToast("Enviado correctamente")
+      }
+    )
+
   }
+
+  
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
+  }
+
   enviarPosicion(location) {
+    this.getPosition()
     this.data.contenido = {}
     this.data.contenido.latitud = location.latitude
     this.data.contenido.longitud = location.longitude

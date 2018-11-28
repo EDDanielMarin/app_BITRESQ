@@ -14,6 +14,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProfilePage {
 
+  cat: string = "men"; // default button
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
