@@ -36,7 +36,7 @@ export class ReportePage implements OnInit {
   msg: String = ''
   mediaFiles = [];
   video: any = null
-  triaje: any = {}
+  triaje: any
   rescatista: any = {}
   cat: string = "men"; // default button
 
@@ -238,13 +238,16 @@ export class ReportePage implements OnInit {
   cargarTriaje() {
     this.rest.ejecutaGet('registros/registrotipo/' + this.mision.codigo + '/' + this.rescatista.codigo + '/5').subscribe((resp: any) => {
       this.triaje = resp
-      this.myForm.setValue(resp[0].contenido)
+      if(resp[0])
+        this.myForm.setValue(resp[0].contenido)
+      else
+      this.inicializaForm()
     })
   }
 
   enviarDatosTriaje() {
 
-    if (!this.triaje[0]._id) {
+    if (!this.triaje[0]) {
       let data: any = {}
       data.contenido = this.myForm.value
       data.rescatista = this.usuario.rescatista
